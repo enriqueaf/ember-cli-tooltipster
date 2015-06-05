@@ -31,7 +31,7 @@ export default Ember.Component.extend({
         'updateAnimation'
     ],
 
-    _initializeTooltipster: Ember.observer('didInsertElement', function() {
+    _initializeTooltipster: Ember.on('didInsertElement', function() {
         var _this = this;
         var options = {};
 
@@ -52,7 +52,25 @@ export default Ember.Component.extend({
 
     }),
 
-    _destroyTooltipster:Ember.observer('willDestroyElement', function() {
+    _destroyTooltipster:Ember.on('willDestroyElement', function() {
         this.$().tooltipster('destroy');
     }),
+
+    /**
+    * Send action ´open´ when open info
+    *
+    * @method functionBefore
+    **/
+    functionBefore: function(origin, continueTooltip) {
+        this.sendAction('open', continueTooltip);
+    },
+
+    /**
+    * Send action close when close info
+    *
+    * @method functionBefore
+    **/
+    functionAfter: function(origin) {
+        this.sendAction('close');
+    },
 });
